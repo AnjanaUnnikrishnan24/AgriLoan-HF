@@ -41,10 +41,19 @@ peer chaincode invoke \
 invoke
 
 ```
-peer chaincode invoke   -o localhost:7050   --ordererTLSHostnameOverride orderer.example.com   --tls   --cafile $ORDERER_CA   -C autochannel   -n AgriSubsidy   --peerAddresses localhost:9051   --tlsRootCertFiles $ORG2_PEER_TLSROOTCERT   -c '{"Args":["SubsidyContract:ApproveByAgri","FID1234","OfficerName"]}'
+ peer chaincode invoke \
+  -o localhost:7050 \
+  --ordererTLSHostnameOverride orderer.example.com \
+  --tls \
+  --cafile $ORDERER_CA \
+  -C autochannel \
+  -n AgriSubsidy \
+  --peerAddresses localhost:9051 \
+  --tlsRootCertFiles $ORG2_PEER_TLSROOTCERT \
+  -c '{"Args":["SubsidyContract:ApproveByAgri","FID1234","OFFICER_JOY"]}'
 ```
 
 query
 ```
- peer chaincode query   -C autochannel   -n AgriSubsidy   -c '{"Args":["SubsidyContract:ReadApplication","FID1234"]}'
+ 
 ```
