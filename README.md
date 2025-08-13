@@ -1,6 +1,9 @@
-# AgriLoan-HF
+# Agriculture Subsidy System-Hyperledger Fabric
 
 ## To build the network
+```
+cd fabric-samples/test-network
+```
 
 ```
 ./network.sh up createChannel -c autochannel -ca -s couchdb
@@ -23,21 +26,21 @@ cd ..
 ## General environment variable
 ```
 export FABRIC_CFG_PATH=$PWD/../config/
-
 export ORDERER_CA=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
-
 export ORG1_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-
 export ORG2_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
-
 export CORE_PEER_TLS_ENABLED=true
 ```
 ## ORG1
+### Environment variables for Org1
+```
+export CORE_PEER_LOCALMSPID=Org1MSP
+export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+export CORE_PEER_ADDRESS=localhost:7051
+```
 
-
-
-
-## PVT DATA
+## Setting the transient data
 
 ```
 export CROPTYPE=$(echo -n "Paddy" | base64 | tr -d \n)
@@ -68,6 +71,8 @@ peer chaincode invoke \
  peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID1234"]}'
 ```
 ## ORG2
+### Environment variables for Org2
+```
 
 invoke
 
@@ -83,11 +88,27 @@ peer chaincode invoke \
   --tlsRootCertFiles $ORG1_PEER_TLSROOTCERT \
   --peerAddresses localhost:9051 \
   --tlsRootCertFiles $ORG2_PEER_TLSROOTCERT \
-  -c '{"Args":["SubsidyContract:ApproveByAgri","FID1234","OFFICER_JOY"]}'
+  -c '{"Args":["SubsidyContract:ApproveByAgri","FID134","OFFICER_JOY"]}'
 
 ```
 
 query
 ```
-  peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID1234"]}'
+  peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID134"]}'
+```
+
+## ORG3
+### Environment variables for Org1
+invoke
+```
+peer chaincode invoke \
+  -o localhost:7050 \
+  --ordererTLSHostnameOverride orderer.example.com \
+  --tls \
+  --cafile $ORDERER_CA \
+  -C autochannel \
+  -n AgriSubsidy \
+  --peerAddresses localhost:11051 \
+  --tlsRootCertFiles $ORG3_PEER_TLSROOTCERT \
+  -c '{"function":"ApproveByBank","Args":["FARMER123","JohnBanker"]}'
 ```
