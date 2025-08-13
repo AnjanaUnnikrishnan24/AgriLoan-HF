@@ -1,5 +1,20 @@
 # AgriLoan-HF
 
+## To build the network
+
+```
+./network.sh up createChannel -c autochannel -ca -s couchdb
+```
+## To add Org3 
+```
+cd addOrg3
+```
+```
+./addOrg3.sh up -c autochannel -ca -s couchdb
+```
+```
+cd ..
+```
 
 ## ORG1
 
