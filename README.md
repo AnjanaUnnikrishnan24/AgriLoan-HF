@@ -23,7 +23,7 @@ cd ..
 ```
  ./network.sh deployCC -ccn AgriSubsidy -ccp ../../AgriSubsidy/Chaincode/ -ccl go -c autochannel  -cccg ../../AgriSubsidy/Chaincode/collections.json
 ```
-## General environment variable
+### General environment variable
 ```
 export FABRIC_CFG_PATH=$PWD/../config/
 export ORDERER_CA=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
@@ -40,14 +40,14 @@ export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.examp
 export CORE_PEER_ADDRESS=localhost:7051
 ```
 
-## Setting the transient data
+### Setting the transient data
 
 ```
 export CROPTYPE=$(echo -n "Paddy" | base64 | tr -d \n)
 export LOCATION=$(echo -n "Kochi" | base64 | tr -d \n)
 export LANDAREA=$(echo -n "56" | base64 | tr -d \n)
 ```
-## Invoke
+### Invoke
 
 ```
 peer chaincode invoke \
@@ -61,20 +61,28 @@ peer chaincode invoke \
   --tlsRootCertFiles $ORG1_PEER_TLSROOTCERT \
   --peerAddresses localhost:9051 \
   --tlsRootCertFiles $ORG2_PEER_TLSROOTCERT \
-  -c '{"Args":["SubsidyContract:ApplyForSubsidy","FID1234","ANIL","20","MACHINE PURCHASE","20000","558855478","2432IOB","IOB"]}' \
+  -c '{"Args":["SubsidyContract:ApplyForSubsidy","FID134","ANIL","20","MACHINE PURCHASE","20000","558855478","2432IOB","IOB"]}' \
   --transient "{\"cropType\":\"${CROPTYPE}\",\"location\":\"${LOCATION}\",\"landArea\":\"${LANDAREA}\"}"
 ```
 
 ## Query
 
 ```
- peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID1234"]}'
+ peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID134"]}'
 ```
 ## ORG2
 ### Environment variables for Org2
 ```
+export CORE_PEER_LOCALMSPID=Org2MSP
 
-invoke
+export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+
+export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+
+export CORE_PEER_ADDRESS=localhost:9051
+```
+
+### invoke
 
 ```
 peer chaincode invoke \
@@ -92,14 +100,24 @@ peer chaincode invoke \
 
 ```
 
-query
+### query
 ```
   peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID134"]}'
 ```
 
 ## ORG3
-### Environment variables for Org1
-invoke
+
+### Environment variables for Org3
+```
+export CORE_PEER_LOCALMSPID=Org3MSP
+
+export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
+
+export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+
+export CORE_PEER_ADDRESS=localhost:11051
+```
+### invoke
 ```
 peer chaincode invoke \
   -o localhost:7050 \
@@ -111,4 +129,9 @@ peer chaincode invoke \
   --peerAddresses localhost:11051 \
   --tlsRootCertFiles $ORG3_PEER_TLSROOTCERT \
   -c '{"function":"ApproveByBank","Args":["FARMER123","JohnBanker"]}'
+```
+
+### query
+```
+  peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID134"]}'
 ```
