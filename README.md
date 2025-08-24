@@ -108,6 +108,10 @@ peer chaincode invoke \
   peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID101"]}'
 ```
 
+```
+peer chaincode invoke ... -c '{"function":"PublishToPublic","Args":["FID101"]}'
+```
+
 ## ORG3
 
 ### Environment variables for Org3
