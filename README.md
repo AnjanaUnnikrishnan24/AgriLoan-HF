@@ -23,6 +23,12 @@ cd ..
 ```
  ./network.sh deployCC -ccn AgriSubsidy -ccp ../../AgriSubsidy/Chaincode/ -ccl go -c autochannel  -cccg ../../AgriSubsidy/Chaincode/collections.json
 ```
+## To deploy the chaincode again
+
+```
+./network.sh deployCC -ccn AgriSubsidy -ccp ../../AgriSubsidye/Chaincode/ -ccl go -c autochannel -ccv 1.0 -ccs 1 -cccg ../../AgriSubsidy/Chaincode/collections.json
+```
+
 ### General environment variable
 ```
 export FABRIC_CFG_PATH=$PWD/../config/
@@ -61,14 +67,14 @@ peer chaincode invoke \
   --tlsRootCertFiles $ORG1_PEER_TLSROOTCERT \
   --peerAddresses localhost:9051 \
   --tlsRootCertFiles $ORG2_PEER_TLSROOTCERT \
-  -c '{"Args":["SubsidyContract:ApplyForSubsidy","FID134","ANIL","20","MACHINE PURCHASE","20000","558855478","2432IOB","IOB"]}' \
+  -c '{"Args":["SubsidyContract:ApplyForSubsidy","FID101","ANIL","20","MACHINE PURCHASE","20000","558855478","2432IOB","IOB"]}' \
   --transient "{\"cropType\":\"${CROPTYPE}\",\"location\":\"${LOCATION}\",\"landArea\":\"${LANDAREA}\"}"
 ```
 
 ## Query
 
 ```
- peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID134"]}'
+ peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID101"]}'
 ```
 ## ORG2
 ### Environment variables for Org2
@@ -96,13 +102,13 @@ peer chaincode invoke \
   --tlsRootCertFiles $ORG1_PEER_TLSROOTCERT \
   --peerAddresses localhost:9051 \
   --tlsRootCertFiles $ORG2_PEER_TLSROOTCERT \
-  -c '{"Args":["SubsidyContract:ApproveByAgri","FID134","OFFICER_JOY"]}'
+  -c '{"Args":["SubsidyContract:ApproveByAgri","FID101","OFFICER_JOY"]}'
 
 ```
 
 ### query
 ```
-  peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID134"]}'
+  peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID101"]}'
 ```
 
 ## ORG3
@@ -128,10 +134,10 @@ peer chaincode invoke \
   -n AgriSubsidy \
   --peerAddresses localhost:11051 \
   --tlsRootCertFiles $ORG3_PEER_TLSROOTCERT \
-  -c '{"function":"ApproveByBank","Args":["FARMER123","JohnBanker"]}'
+  -c '{"function":"ApproveByBank","Args":["FID101","JohnBanker"]}'
 ```
 
 ### query
 ```
-  peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID134"]}'
+  peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID101"]}'
 ```
