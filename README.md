@@ -80,11 +80,8 @@ peer chaincode invoke \
 ### Environment variables for Org2
 ```
 export CORE_PEER_LOCALMSPID=Org2MSP
-
 export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
-
 export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
-
 export CORE_PEER_ADDRESS=localhost:9051
 ```
 
@@ -103,10 +100,10 @@ peer chaincode invoke \
   --peerAddresses localhost:9051 \
   --tlsRootCertFiles $ORG2_PEER_TLSROOTCERT \
   -c '{"Args":["SubsidyContract:ApproveByAgri","FID101","OFFICER_JOY"]}'
-
 ```
 
 ### query
+
 ```
   peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID101"]}'
 ```
@@ -116,14 +113,13 @@ peer chaincode invoke \
 ### Environment variables for Org3
 ```
 export CORE_PEER_LOCALMSPID=Org3MSP
-
 export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
-
 export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
-
 export CORE_PEER_ADDRESS=localhost:11051
 ```
+
 ### invoke
+
 ```
 peer chaincode invoke \
   -o localhost:7050 \
@@ -138,6 +134,24 @@ peer chaincode invoke \
 ```
 
 ### query
+
 ```
   peer chaincode query -C autochannel -n AgriSubsidy -c '{"Args":["SubsidyContract:ReadApplication","FID101"]}'
+```
+
+##  UI
+
+```
+cd SampleApp
+```
+## To run the Client App
+
+```
+go run .
+```
+
+## To Down the Network
+
+```
+./network.sh down
 ```
